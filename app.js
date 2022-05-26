@@ -54,60 +54,60 @@ app.get("/saying/random", async (req, res) => {
   });
 });
 
-// app.patch("/wise-sayings/:id", async (req, res) => {
-//   const { id } = req.params;
-//   const [[wiseSayingRow]] = await pool.query(
-//     `
-//     SELECT *
-//     FROM wise_saying
-//     WHERE id = ?
-//     `,
-//     [id]
-//   );
+app.patch("/saying/:id", async (req, res) => {
+  const { id } = req.params;
+  const [[sayingRow]] = await pool.query(
+    `
+    SELECT *
+    FROM saying
+    WHERE id = ?
+    `,
+    [id]
+  );
 
-//   if (wiseSayingRow === undefined) {
-//     res.status(404).json({
-//       resultCode: "F-1",
-//       msg: "404 not found",
-//     });
-//     return;
-//   }
+  if (sayingRow === undefined) {
+    res.status(404).json({
+      resultCode: "F-1",
+      msg: "404 not Found",
+    });
+    return;
+  }
 
-//   const {
-//     content = wiseSayingRow.content,
-//     author = wiseSayingRow.author,
-//     goodLikeCount = wiseSayingRow.goodLikeCount,
-//     badLikeCount = wiseSayingRow.badLikeCount,
-//   } = req.body;
+  const {
+    content = sayingRow.content,
+    auter = sayingRow.auter,
+    good_count = sayingRow.good_count,
+    bads_count = sayingRow.bads_count,
+  } = req.body;
 
-//   await pool.query(
-//     `
-//     UPDATE wise_saying
-//     SET content = ?,
-//     author = ?,
-//     goodLikeCount = ?,
-//     badLikeCount = ?
-//     WHERE id = ?
-//     `,
-//     [content, author, goodLikeCount, badLikeCount, id]
-//   );
+  await pool.query(
+    `
+    UPDATE saying
+    SET content = ?,
+    auter = ?,
+    good_count = ?,
+    bads_count = ?
+    WHERE id = ?
+    `,
+    [content, auter, good_count, bads_count, id]
+  );
 
-//   const [[justModifiedWiseSayingRow]] = await pool.query(
-//     `
-//     SELECT *
-//     FROM wise_saying
-//     WHERE id = ?
-//     `,
-//     [id]
-//   );
+  const [[justsayingRow]] = await pool.query(
+    `
+    SELECT *
+    FROM saying
+    WHERE id = ?
+    `,
+    [id]
+  );
 
-//   res.json({
-//     resultCode: "S-1",
-//     msg: "성공",
-//     data: justModifiedWiseSayingRow,
-//   });
-// });
+  res.json({
+    resultCode: "S-1",
+    msg: "성공",
+    date: justsayingRow,
+  });
+});
 
 app.listen(port, () => {
-  console.log(`Wise saying app listening on port ${port}`);
+  console.log(`saying app listening on port ${port}`);
 });
