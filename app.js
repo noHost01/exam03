@@ -6,7 +6,7 @@ const pool = mysql.createPool({
   host: "localhost",
   user: "sbsst",
   password: "sbs123414",
-  database: "wise_saying_app_2022_05_26",
+  database: "Fam",
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
@@ -22,7 +22,7 @@ app.get("/saying/random", async (req, res) => {
   const [[sayingRow]] = await pool.query(
     `
     SELECT *
-    FROM wise_saying
+    FROM saying
     ORDER BY RAND()
     LIMIT 1
     `
@@ -40,11 +40,11 @@ app.get("/saying/random", async (req, res) => {
 
   await pool.query(
     `
-    UPDATE wise_saying
-    SET hitCount = ?
+    UPDATE saying
+    SET view_count = ?
     WHERE id = ?
     `,
-    [sayingRow.hitCount, sayingRow.id]
+    [sayingRow.view_count, sayingRow.id]
   );
 
   res.json({
